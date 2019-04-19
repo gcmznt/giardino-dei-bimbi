@@ -336,8 +336,8 @@ add_filter("manage_users_custom_column", function ($val, $column, $user_id) {
           $query->the_post();
           $figli .= get_field('nome', get_the_ID()) . ' ' . get_field('cognome', get_the_ID()) . '<br>';
         }
-        wp_reset_postdata();
       }
+      wp_reset_postdata();
       return $figli;
       break;
     case "codice_fiscale":
@@ -387,6 +387,42 @@ add_action("manage_" . POST_TYPE_MENU . "_posts_custom_column", function ($colum
   switch ($column) {
     case "data_di_inizio":
       echo get_field("data_di_inizio", $post_id);
+      break;
+  }
+}, 10, 2);
+
+add_filter("manage_" . POST_TYPE_TEACHER . "_posts_columns", function ($columns) {
+  return array(
+    "cb" => $columns["cb"],
+    "title" => __("Nome"),
+    "bambini" => __("Bambini"),
+  );
+});
+
+add_action("manage_" . POST_TYPE_TEACHER . "_posts_custom_column", function ($column, $post_id) {
+  switch ($column) {
+    case "bambini":
+      $query = new WP_Query(array(
+        "post_type" => POST_TYPE_CHILDREN,
+        "meta_query" => array(
+          array(
+            "key"     => "maestra",
+            "value"   => $post_id,
+            "compare" => "="
+          ),
+        )
+      ));
+
+      echo $query->post_count;
+      
+      if ($query->have_posts()) {
+        echo ': ';
+        while ( $query->have_posts() ) {
+          $query->the_post();
+          echo get_field('nome', get_the_ID()) . ' ' . get_field('cognome', get_the_ID()) . ', ';
+        }
+      }
+      wp_reset_postdata();
       break;
   }
 }, 10, 2);
