@@ -16,21 +16,27 @@
   <div class="tiles">
     <div class="tile">
       <picture>
-        <img src="<?php echo get_bloginfo('template_directory'); ?>/images/assicurazione.png" alt="" />
+        <svg class="icon">
+          <use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#family"></use>
+        </svg>
       </picture>
       <h2>Inserimento</h2>
       <a href="/i-bambini/#inserimento" class="button">Scopri</a>
     </div>
     <div class="tile">
       <picture>
-        <img src="<?php echo get_bloginfo('template_directory'); ?>/images/attivita.png" alt="" />
+        <svg class="icon">
+          <use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#abc-block"></use>
+        </svg>
       </picture>
       <h2>Attività</h2>
       <a href="/i-bambini/#cosa-facciamo" class="button">Scopri</a>
     </div>
     <div class="tile">
       <picture>
-        <img src="<?php echo get_bloginfo('template_directory'); ?>/images/mangiamo.png" alt="" />
+        <svg class="icon">
+          <use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#baby-food"></use>
+        </svg>
       </picture>
       <h2>Cosa mangiamo</h2>
       <a href="/i-bambini/#cosa-mangiamo" class="button">Scopri</a>
@@ -43,7 +49,9 @@
   <div class="tiles">
     <div class="tile">
       <picture>
-        <img src="<?php echo get_bloginfo('template_directory'); ?>/images/babyparking.png" alt="" />
+        <svg class="icon">
+          <use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#baby-boy"></use>
+        </svg>
       </picture>
       <h2><a href="/servizi/#baby-parking">Baby parking</a></h2>
       <p>
@@ -52,7 +60,9 @@
     </div>
     <div class="tile">
       <picture>
-        <img src="<?php echo get_bloginfo('template_directory'); ?>/images/pediatra.png" alt="" />
+        <svg class="icon">
+          <use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#stethoscope"></use>
+        </svg>
       </picture>
       <h2><a href="/servizi/#pediatra">Pediatra</a></h2>
       <p>
@@ -61,7 +71,9 @@
     </div>
     <div class="tile">
       <picture>
-        <img src="<?php echo get_bloginfo('template_directory'); ?>/images/psicologa.png" alt="" />
+        <svg class="icon">
+          <use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#maternity"></use>
+        </svg>
       </picture>
       <h2><a href="/servizi/#psicologa">Psicologa</a></h2>
       <p>
