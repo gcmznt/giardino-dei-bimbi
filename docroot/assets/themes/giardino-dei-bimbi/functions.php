@@ -504,20 +504,23 @@ add_action("restrict_manage_posts", function () {
   $type = isset($_GET["post_type"]) ? $_GET["post_type"] : "post";
 
   if (POST_TYPE_ACTIVITY == $type) {
-    $user_query = new WP_User_Query(array("role" => ROLE_TEACHER));
+    $query = new WP_Query(array(
+      "post_type" => POST_TYPE_TEACHER
+    ));
 
-    if (!empty($user_query->get_results())) {
+    if ($query->have_posts()) {
 ?>
     <select name="ADMIN_FILTER_FIELD_VALUE">
       <option value=""><?php _e("Tutte le maestre"); ?></option>
 <?php
-      foreach ($user_query->get_results() as $user) {
+      while ( $query->have_posts() ) {
+        $query->the_post();
         $current_v = isset($_GET["ADMIN_FILTER_FIELD_VALUE"]) ? $_GET["ADMIN_FILTER_FIELD_VALUE"] : "";
         printf(
           '<option value="%s"%s>%s</option>',
-          $user->ID,
-          $user->ID == $current_v ? ' selected="selected"' : "",
-          $user->display_name
+          get_the_ID(),
+          get_the_ID() == $current_v ? ' selected="selected"' : "",
+          get_field("nome", get_the_ID())
         );
       }
 ?>
