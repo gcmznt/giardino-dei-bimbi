@@ -1,4 +1,5 @@
 <?php
+define("ADMIN_MENU", "admin-menu");
 define("LOGGED_MENU", "logged-in");
 define("PUBLIC_MENU", "logged-out");
 define("LOGOUT_MENU_NAME", "Logout");
@@ -14,8 +15,14 @@ define("POST_TYPE_ACTIVITY", "activity");
 include_once('custom-fields.php');
 
 function main_menu() {
+  $user = wp_get_current_user();
+  $allowed_roles = array(ROLE_OWNER, ROLE_TEACHER);
+  $menu = PUBLIC_MENU;
+  if (is_user_logged_in()) {
+    $menu = (array_intersect($allowed_roles, $user->roles)) ? ADMIN_MENU : LOGGED_MENU;
+  }
   return wp_nav_menu(array(
-    "theme_location"  => is_user_logged_in() ? LOGGED_MENU : PUBLIC_MENU,
+    "theme_location"  => $menu,
     "menu"            => "",
     "container"       => "nav",
     "container_class" => "menu",
@@ -135,6 +142,7 @@ function change_title($post_id) {
 add_action('init', function () {
   create_post_types();
   register_nav_menus(array(
+    ADMIN_MENU => "Menu per amministratori",
     LOGGED_MENU => "Menu per utenti loggati",
     PUBLIC_MENU => "Menu pubblico"
   ));
