@@ -40,7 +40,7 @@
 	<div class="report">
 		<div class="date"><?php the_field('data', get_the_ID()); ?></div>
 		<div class="info">
-			<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+			<img src="<?php echo get_bloginfo('template_directory'); ?>/images/menu.svg" class="icon" alt="" />
 			<ul class="description">
 				<?php foreach (array('primo', 'secondo', 'contorno', 'frutta') as $piatto) { ?>
 					<li><?php
@@ -54,7 +54,7 @@
 				<?php } ?>
 			</ul>
 			<?php if (get_field('nanna', get_the_ID())) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/sleep.svg" class="icon" alt="" />
 				<ul class="description">
 					<?php
 						foreach (array('nanna', 'secondo_pisolino', 'terzo_pisolino') as $s) {
@@ -71,7 +71,7 @@
 				</ul>
 			<?php } ?>
 			<?php if (get_field('scarica_1', get_the_ID())) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/poo.svg" class="icon" alt="" />
 				<ul class="description">
 					<?php
 						foreach (array('scarica_1', 'scarica_2', 'scarica_3') as $s) {
@@ -85,19 +85,19 @@
 				</ul>
 			<?php } ?>
 			<?php if (get_field('merenda', get_the_ID())) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/ice-cream.svg" class="icon" alt="" />
 				<ul class="description">
 					<li><?php the_field('merenda', get_the_ID()); ?></li>
 				</ul>
 			<?php } ?>
 			<?php if (get_field('attivita', get_the_ID())) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/notes.svg" class="icon" alt="" />
 				<ul class="description">
 					<li><?php the_field('attivita', get_the_ID()); ?></li>
 				</ul>
 			<?php } ?>
 			<?php if (is_array(get_field('salute', get_the_ID())) && in_array('Febbre', get_field('salute', get_the_ID()))) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/thermometer.svg" class="icon" alt="" />
 				<ul class="description">
 					<?php
 						$febbre = get_field('febbre', get_the_ID());
@@ -113,13 +113,13 @@
 				</ul>
 			<?php } ?>
 			<?php if (get_field('patelli', get_the_ID())) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/diaper.svg" class="icon" alt="" />
 				<ul class="description">
 					<li><?php echo (get_field('patelli', get_the_ID()) ? "Patelli finiti" : '') ?></li>
 				</ul>
 			<?php } ?>
 			<?php if (is_array(get_field('salute', get_the_ID())) && count(get_field('salute', get_the_ID()))) { ?>
-				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/orari.png" class="icon" alt="" />
+				<img src="<?php echo get_bloginfo('template_directory'); ?>/images/heart.svg" class="icon" alt="" />
 				<ul class="description">
 					<li><?php
 						if (get_field('salute', get_the_ID())) {
