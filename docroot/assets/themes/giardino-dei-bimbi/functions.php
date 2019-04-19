@@ -231,12 +231,14 @@ add_role(ROLE_OWNER,
     "upload_files" => true,
     "edit_posts" => true,
     "delete_posts" => true,
+    "publish_posts" => true,
     "edit_others_posts" => true,
     "delete_others_posts" => true,
     "edit_published_posts" => true,
     "delete_published_posts" => true,
     "edit_pages" => true,
     "delete_pages" => true,
+    "publish_pages" => true,
     "edit_others_pages" => true,
     "delete_others_pages" => true,
     "edit_published_pages" => true,
@@ -432,6 +434,13 @@ add_filter("manage_" . POST_TYPE_ACTIVITY . "_posts_columns", function ($columns
     "cb" => $columns["cb"],
     "data" => __("Data"),
     "bambino" => __("Bambino"),
+    "mangiato" => __("Ha mangiato?"),
+    "dormito" => __("Ha dormito?"),
+    "merenda" => __("Ha fatto merenda?"),
+    "attivita" => __("Attivitá"),
+    "scaricato" => __("Ha scaricato?"),
+    "febbre" => __("Febbre"),
+    "patelli" => __("Patelli"),
     "maestra" => __("Maestra"),
   );
 });
@@ -443,6 +452,31 @@ add_action("manage_" . POST_TYPE_ACTIVITY . "_posts_custom_column", function ($c
       break;
     case "bambino":
       echo get_field("bambino", $post_id)->nome . ' ' . get_field("bambino", $post_id)->cognome;
+      break;
+    case "mangiato":
+      echo get_field("menu", $post_id)['primo']['mangiato'] ? '✅' : '';
+      break;
+    case "dormito":
+      echo get_field("nanna", $post_id)['alle'] ? '😴' : '';
+      echo get_field("secondo_pisolino", $post_id)['alle'] ? '😴' : '';
+      echo get_field("terzo_pisolino", $post_id)['alle'] ? '😴' : '';
+      break;
+    case "scaricato":
+      echo get_field("scarica_1", $post_id)['ora'] ? '💩' : '';
+      echo get_field("scarica_2", $post_id)['ora'] ? '💩' : '';
+      echo get_field("scarica_3", $post_id)['ora'] ? '💩' : '';
+      break;
+    case "merenda":
+      echo get_field("merenda", $post_id) ? '🍦' : '';
+      break;
+    case "attivita":
+      echo get_field("attivita", $post_id) ? '✅' : '';
+      break;
+    case "febbre":
+      echo get_field("febbre", $post_id)['ora'] ? '🌡' : '';
+      break;
+    case "patelli":
+      echo get_field("patelli", $post_id) ? '✅' : '';
       break;
     case "maestra":
       echo get_field("maestra", $post_id)->post_title;

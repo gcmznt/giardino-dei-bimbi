@@ -106,20 +106,18 @@
 					<li><?php the_field('attivita', get_the_ID()); ?></li>
 				</ul>
 			<?php } ?>
-			<?php if (is_array(get_field('salute', get_the_ID())) && in_array('Febbre', get_field('salute', get_the_ID()))) { ?>
+			<?php if (is_array(get_field('salute', get_the_ID())) && in_array('Febbre', get_field('salute', get_the_ID())) && get_field('febbre', get_the_ID())['ora']) { ?>
 				<svg class="icon">
 					<use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#thermometer"></use>
 				</svg>
 				<ul class="description">
 					<?php
 						$febbre = get_field('febbre', get_the_ID());
-						if ($febbre['temperatura']) {
-							echo "<li>" . substr($febbre['ora'], 0, -3);
-							echo " " . $febbre['temperatura'] . "</li>";
+						if ($febbre['ora']) {
+							echo "<li>" . $febbre['temperatura'] . "&deg; alle " . substr($febbre['ora'], 0, -3) . "</li>";
 						}
-						if ($febbre['temperatura_2']) {
-							echo "<li>" . substr($febbre['ora_2'], 0, -3);
-							echo " " . $febbre['temperatura_2'] . "</li>";
+						if ($febbre['ora_2']) {
+							echo "<li>" . $febbre['temperatura_2'] . "&deg; alle " . substr($febbre['ora_2'], 0, -3) . "</li>";
 						}
 					?>
 				</ul>
