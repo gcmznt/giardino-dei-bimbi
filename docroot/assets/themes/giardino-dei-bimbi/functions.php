@@ -11,6 +11,7 @@ define("ROLE_OWNER", "owner");
 define("POST_TYPE_CHILDREN", "children");
 define("POST_TYPE_MENU", "menu");
 define("POST_TYPE_ACTIVITY", "activity");
+define("POST_TYPE_TEACHER", "teacher");
 
 include_once('custom-fields.php');
 
@@ -106,6 +107,26 @@ function create_post_types() {
     'show_in_rest' => true,
     'menu_position' => 2
   ));
+  register_post_type(POST_TYPE_TEACHER, array(
+    'labels' => array(
+      'name' => 'Maestre', /* nome, al plurale, dell'etichetta del post type. */
+      'singular_name' => 'Maestra', /* nome, al singolare, dell'etichetta del post type. */
+      'all_items' => 'Tutte le maestre', /* testo nei menu che indica tutti i contenuti del post type */
+      'add_new' => 'Aggiungi nuova', /*testo del pulsante Aggiungi. */
+      'add_new_item' => 'Aggiungi nuova maestra', /* testo per il pulsante Aggiungi nuovo post type */
+      'edit_item' => 'Modifica maestra', /*  testo modifica */
+      'new_item' => 'Nuova maestra', /* testo nuovo oggetto */
+      'view_item' => 'Visualizza maestra', /* testo per visualizzare */
+      'search_items' => 'Cerca maestra', /* testo per la ricerca*/
+      'not_found' =>  'Nessuna maestra trovata', /* testo se non trova nulla */
+      'not_found_in_trash' => 'Nessuna maestra trovata nel cestino', /* testo se non trova nulla nel cestino */
+    ),
+    'public' => true,
+    'has_archive' => true,
+    'supports' => array('revision'),
+    'show_in_rest' => true,
+    'menu_position' => 2
+  ));
 
   $labels = get_post_type_object('post')->labels;
   $labels->name = 'Avvisi';
@@ -127,6 +148,7 @@ function change_title($post_id) {
   remove_action("save_post", "change_title");
   switch (get_post_type($post_id)) {
     case POST_TYPE_MENU:
+    case POST_TYPE_TEACHER:
       wp_update_post(array("ID" => $post_id, "post_title" => get_field("nome") . ""));
       break;
     case POST_TYPE_CHILDREN:
@@ -348,7 +370,7 @@ add_action("manage_" . POST_TYPE_CHILDREN . "_posts_custom_column", function ($c
       endforeach;
       break;
     case "maestra":
-      echo get_field("maestra", $post_id)->display_name;
+      echo get_field("maestra", $post_id)->post_title;
       break;
   }
 }, 10, 2);
@@ -387,7 +409,7 @@ add_action("manage_" . POST_TYPE_ACTIVITY . "_posts_custom_column", function ($c
       echo get_field("bambino", $post_id)->nome . ' ' . get_field("bambino", $post_id)->cognome;
       break;
     case "maestra":
-      echo get_field("maestra", $post_id)->display_name;
+      echo get_field("maestra", $post_id)->post_title;
       break;
   }
 }, 10, 2);

@@ -110,7 +110,7 @@ acf_add_local_field_group(array(
 			'key' => 'field_5c7feba321167',
 			'label' => 'Maestra',
 			'name' => 'maestra',
-			'type' => 'user',
+			'type' => 'post_object',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
@@ -119,7 +119,7 @@ acf_add_local_field_group(array(
 				'class' => '',
 				'id' => '',
 			),
-			'role' => array(
+			'post_type' => array(
 				0 => 'teacher',
 			),
 			'allow_null' => 0,
@@ -293,7 +293,7 @@ acf_add_local_field_group(array(
 			'key' => 'field_5ca757e756fe5',
 			'label' => 'Maestra',
 			'name' => 'maestra',
-			'type' => 'user',
+			'type' => 'post_object',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
@@ -302,7 +302,7 @@ acf_add_local_field_group(array(
 				'class' => '',
 				'id' => '',
 			),
-			'role' => array(
+			'post_type' => array(
 				0 => 'teacher',
 			),
 			'allow_null' => 0,
@@ -3071,6 +3071,49 @@ acf_add_local_field_group(array(
 	),
 	'menu_order' => 0,
 	'position' => 'normal',
+	'style' => 'seamless',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+	'active' => true,
+	'description' => '',
+));
+
+acf_add_local_field_group(array(
+	'key' => 'group_5cb9a5ef1d0a0',
+	'title' => 'Maestra',
+	'fields' => array(
+		array(
+			'key' => 'field_5cb9a5f3427ad',
+			'label' => 'Nome',
+			'name' => 'nome',
+			'type' => 'text',
+			'instructions' => '',
+			'required' => 1,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'maxlength' => '',
+		),
+	),
+	'location' => array(
+		array(
+			array(
+				'param' => 'post_type',
+				'operator' => '==',
+				'value' => 'teacher',
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'acf_after_title',
 	'style' => 'seamless',
 	'label_placement' => 'top',
 	'instruction_placement' => 'label',
