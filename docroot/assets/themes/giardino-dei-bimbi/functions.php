@@ -467,7 +467,7 @@ add_action("manage_" . POST_TYPE_ACTIVITY . "_posts_custom_column", function ($c
       echo get_field("scarica_3", $post_id)['ora'] ? '💩' : '';
       break;
     case "merenda":
-      echo get_field("merenda", $post_id) ? '🍦' : '';
+      echo get_field("merenda", $post_id) ? '✅' : '';
       break;
     case "attivita":
       echo get_field("attivita", $post_id) ? '✅' : '';
@@ -530,7 +530,8 @@ add_action("create_activity_hook", function () {
     }
 
     $query = new WP_Query(array(
-      "post_type" => POST_TYPE_CHILDREN
+      "post_type" => POST_TYPE_CHILDREN,
+      "posts_per_page" => -1
     ));
 
     if ($query->have_posts()) {
