@@ -13,7 +13,7 @@ define("POST_TYPE_MENU", "menu");
 define("POST_TYPE_ACTIVITY", "activity");
 define("POST_TYPE_TEACHER", "teacher");
 
-include_once('custom-fields.php');
+include_once("custom-fields.php");
 
 function main_menu() {
   $user = wp_get_current_user();
@@ -173,7 +173,7 @@ add_action('init', function () {
 });
 
 add_filter("login_redirect", function ($redirect_to, $request, $user) {
-  return is_parent($user) ? "/children/" : $redirect_to;
+  return is_parent($user) ? "/children/" : admin_url("edit.php?post_type=" . POST_TYPE_ACTIVITY);
 }, 10, 3 );
 
 add_action("wp_logout", function () {
@@ -190,27 +190,24 @@ add_filter("wp_nav_menu_objects", function ($items) {
   return $items;
 });
 
-// if (get_role(ROLE_TEACHER)){
-//   remove_role(ROLE_TEACHER);
-// }
+if (get_role(ROLE_TEACHER)){
+  remove_role(ROLE_TEACHER);
+}
 add_role(ROLE_TEACHER,
   __("Maestra"),
   array(
     "read" => true,
-    "upload_files" => true,
+    "upload_files" => false,
+    "edit_post" => true,
     "edit_posts" => true,
-    "delete_posts" => true,
+    "delete_post" => false,
+    "delete_posts" => false,
     "edit_others_posts" => true,
-    "delete_others_posts" => true,
+    "delete_others_posts" => false,
+    "delete_others_post" => false,
     "edit_published_posts" => true,
-    "delete_published_posts" => true,
-    "edit_pages" => true,
-    "delete_pages" => true,
-    "edit_others_pages" => true,
-    "delete_others_pages" => true,
-    "edit_published_pages" => true,
-    "delete_published_pages" => true,
-    "moderate_comments" => false,
+    "delete_published_posts" => false,
+    "delete_published_post" => false
   )
 );
 
@@ -273,7 +270,7 @@ add_action("wp_before_admin_bar_render", function () {
 });
 
 add_action("pre_get_posts", function ($query) {
-  if (is_admin()) { return $query; }
+  if (is_admin() || defined('DOING_CRON')) { return $query; }
 
   if (isset($query->query_vars["post_type"]) && $query->query_vars["post_type"] === POST_TYPE_CHILDREN) {
     if (current_user_can("administrator")) {
@@ -505,7 +502,7 @@ add_action("create_activity_hook", function () {
       "order_by" => "meta_value_num",
       "order" => "ASC",
     ));
-    
+
     $day_map = array(
       0 => "domenica",
       1 => "lunedi",
@@ -517,7 +514,7 @@ add_action("create_activity_hook", function () {
     );
 
     if ($query->have_posts()) {
-      while ( $query->have_posts() ) {
+      while ($query->have_posts()) {
         $query->the_post();
 
         $start = strtotime(get_field("data_di_inizio"));
@@ -531,7 +528,9 @@ add_action("create_activity_hook", function () {
 
     $query = new WP_Query(array(
       "post_type" => POST_TYPE_CHILDREN,
-      "posts_per_page" => -1
+      "posts_per_page" => -1,
+      "orderby" => "title",
+      "order" => "ASC",
     ));
 
     if ($query->have_posts()) {
@@ -539,12 +538,12 @@ add_action("create_activity_hook", function () {
         $query->the_post();
 
         $post_id = wp_insert_post(array(
-          "post_title"	=> get_field("nome") . "",
+          "post_title"	=> date("Y-m-d") . " - " . get_the_title(),
           "post_type"		=> POST_TYPE_ACTIVITY,
           "post_status"	=> "publish"
         ));
 
-        update_field("data", $today = date("Y-m-d"), $post_id);
+        update_field("data", date("Y-m-d"), $post_id);
         update_field("bambino", get_the_ID(), $post_id);
         update_field("maestra", get_field("maestra", get_the_ID())->ID, $post_id);
         update_field("menu", array(
@@ -571,6 +570,12 @@ if (!wp_next_scheduled("create_activity_hook")) {
   wp_schedule_event(strtotime("today midnight"), "daily", "create_activity_hook");
 }
 
+add_action("init", function () {
+  if (!session_id()) {
+    session_start();
+  }
+}, 1);
+
 add_action("restrict_manage_posts", function () {
   $type = isset($_GET["post_type"]) ? $_GET["post_type"] : "post";
 
@@ -581,16 +586,16 @@ add_action("restrict_manage_posts", function () {
 
     if ($query->have_posts()) {
 ?>
-    <select name="ADMIN_FILTER_FIELD_VALUE">
+    <select name="teacher_id">
       <option value=""><?php _e("Tutte le maestre"); ?></option>
 <?php
       while ( $query->have_posts() ) {
         $query->the_post();
-        $current_v = isset($_GET["ADMIN_FILTER_FIELD_VALUE"]) ? $_GET["ADMIN_FILTER_FIELD_VALUE"] : "";
+        $_SESSION["teacher_id"] = isset($_GET["teacher_id"]) ? $_GET["teacher_id"] : "";
         printf(
           '<option value="%s"%s>%s</option>',
           get_the_ID(),
-          get_the_ID() == $current_v ? ' selected="selected"' : "",
+          get_the_ID() == $_SESSION["teacher_id"] ? ' selected="selected"' : "",
           get_field("nome", get_the_ID())
         );
       }
@@ -609,16 +614,92 @@ add_filter("parse_query", function ($query) {
     POST_TYPE_ACTIVITY == $type
     && is_admin()
     && $pagenow == "edit.php"
-    && isset($_GET["ADMIN_FILTER_FIELD_VALUE"])
-    && $_GET["ADMIN_FILTER_FIELD_VALUE"] != ""
+    && isset($_GET["teacher_id"])
+    && $_GET["teacher_id"] != ""
     && $query->is_main_query()
   ) {
     $query->query_vars["meta_query"] = array(
       array(
         "key" => "maestra",
-        "value" => $_GET["ADMIN_FILTER_FIELD_VALUE"],
+        "value" => $_GET["teacher_id"],
         "compare" => "="
       )
     );
   }
 });
+
+function hide_field( $field ) {
+  return false;
+}
+
+function show_title( $field ) {
+  echo '<h1 class="acf-field">' . get_the_title() . '</h1>';
+}
+
+add_filter( 'acf/prepare_field/key=field_5ca4c96dc706b', 'show_title' );
+add_filter( 'acf/prepare_field/key=field_5ca4c96dc706b', 'hide_field' );
+add_filter( 'acf/prepare_field/key=field_5ca4c98dc706c', 'hide_field' );
+add_filter( 'acf/prepare_field/key=field_5ca757e756fe5', 'hide_field' );
+
+add_filter("redirect_post_location", function ($location) {
+  error_log(print_r($_POST, true));
+  return ((isset($_POST["save"]) || isset($_POST["publish"])) && isset($_POST["post_type"]) && $_POST["post_type"] == POST_TYPE_ACTIVITY)
+    ? admin_url("edit.php?post_type=" . POST_TYPE_ACTIVITY . "&teacher_id=" . $_SESSION["teacher_id"])
+    : $location;
+});
+
+add_action("admin_menu", function () {
+  if (!current_user_can("administrator")):
+    remove_menu_page("edit.php?post_type=" . POST_TYPE_CHILDREN);
+    remove_menu_page("edit.php?post_type=" . POST_TYPE_MENU);
+    remove_menu_page("edit.php?post_type=" . POST_TYPE_TEACHER);
+    remove_menu_page("edit.php"); // Posts
+    remove_menu_page("upload.php"); // Media
+    remove_menu_page("link-manager.php"); // Links
+    remove_menu_page("edit-comments.php"); // Comments
+    remove_menu_page("edit.php?post_type=page"); // Pages
+    remove_menu_page("plugins.php"); // Plugins
+    remove_menu_page("themes.php"); // Appearance
+    remove_menu_page("users.php"); // Users
+    remove_menu_page("tools.php"); // Tools
+    remove_menu_page("options-general.php"); // Settings
+  endif;
+});
+
+// is_admin() && add_action( 'pre_get_posts', 'extranet_orderby' );    
+
+// function extranet_orderby( $query ) 
+// {   
+//   if (!$query->is_main_query() || POST_TYPE_ACTIVITY != $query->get("post_type"))
+//     return;
+
+//   // $query->set("orderby", array(
+//   //   'data'     => 'desc',
+//   //   'bambino'       => 'desc',
+//   //   ));
+//   // $query->set("meta_query", array(
+//   //       'relation' => 'AND',
+//   //       'bambino' => array(
+//   //           'key' => 'bambino',
+//   //           'compare' => 'EXISTS',
+//   //       ),
+//   //       'data' => array(
+//   //           'key' => 'data',
+//   //           'compare' => 'EXISTS',
+//   //       ), 
+//   //   ));
+//   // $query->set("meta_query", array(
+//   //   array(
+//   //       'key'     => 'bambino',
+//   //                   'orderby' => 'meta_value_num',
+//   //                   'order' => 'ASC'
+//   //   ),
+//   //   // array(
+//   //   //     'key'     => 'data',
+//   //   //                 'orderby' => 'meta_value_num', /* use this only 
+//   //   //                          if the key stores number otherwise use 'meta_value' */
+//   //   //                 'order' => 'ASC'
+//   //   // ),
+//   // ));
+//   // $query->set( "orderby",  "meta_value_num" );
+// }
