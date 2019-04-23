@@ -190,9 +190,9 @@ add_filter("wp_nav_menu_objects", function ($items) {
   return $items;
 });
 
-if (get_role(ROLE_TEACHER)){
-  remove_role(ROLE_TEACHER);
-}
+// if (get_role(ROLE_TEACHER)){
+//   remove_role(ROLE_TEACHER);
+// }
 add_role(ROLE_TEACHER,
   __("Maestra"),
   array(
@@ -530,7 +530,7 @@ add_action("create_activity_hook", function () {
       "post_type" => POST_TYPE_CHILDREN,
       "posts_per_page" => -1,
       "orderby" => "title",
-      "order" => "ASC",
+      "order" => "DESC",
     ));
 
     if ($query->have_posts()) {
@@ -642,7 +642,6 @@ add_filter( 'acf/prepare_field/key=field_5ca4c98dc706c', 'hide_field' );
 add_filter( 'acf/prepare_field/key=field_5ca757e756fe5', 'hide_field' );
 
 add_filter("redirect_post_location", function ($location) {
-  error_log(print_r($_POST, true));
   return ((isset($_POST["save"]) || isset($_POST["publish"])) && isset($_POST["post_type"]) && $_POST["post_type"] == POST_TYPE_ACTIVITY)
     ? admin_url("edit.php?post_type=" . POST_TYPE_ACTIVITY . "&teacher_id=" . $_SESSION["teacher_id"])
     : $location;
@@ -666,40 +665,8 @@ add_action("admin_menu", function () {
   endif;
 });
 
-// is_admin() && add_action( 'pre_get_posts', 'extranet_orderby' );    
-
-// function extranet_orderby( $query ) 
-// {   
-//   if (!$query->is_main_query() || POST_TYPE_ACTIVITY != $query->get("post_type"))
-//     return;
-
-//   // $query->set("orderby", array(
-//   //   'data'     => 'desc',
-//   //   'bambino'       => 'desc',
-//   //   ));
-//   // $query->set("meta_query", array(
-//   //       'relation' => 'AND',
-//   //       'bambino' => array(
-//   //           'key' => 'bambino',
-//   //           'compare' => 'EXISTS',
-//   //       ),
-//   //       'data' => array(
-//   //           'key' => 'data',
-//   //           'compare' => 'EXISTS',
-//   //       ), 
-//   //   ));
-//   // $query->set("meta_query", array(
-//   //   array(
-//   //       'key'     => 'bambino',
-//   //                   'orderby' => 'meta_value_num',
-//   //                   'order' => 'ASC'
-//   //   ),
-//   //   // array(
-//   //   //     'key'     => 'data',
-//   //   //                 'orderby' => 'meta_value_num', /* use this only 
-//   //   //                          if the key stores number otherwise use 'meta_value' */
-//   //   //                 'order' => 'ASC'
-//   //   // ),
-//   // ));
-//   // $query->set( "orderby",  "meta_value_num" );
-// }
+is_admin() && add_action("pre_get_posts", function ($query) {
+  if ($query->is_main_query() && POST_TYPE_ACTIVITY == $query->get("post_type")) {
+    $query->set("orderby", "ID");
+  }
+});    
