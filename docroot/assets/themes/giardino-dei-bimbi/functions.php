@@ -447,8 +447,8 @@ add_action("manage_" . POST_TYPE_ACTIVITY . "_posts_custom_column", function ($c
     case "data":
       echo edit_post_link(get_field("data", $post_id), '<strong>', '</strong>');
       break;
-    case "bambino":
-      echo get_field("bambino", $post_id)->nome . ' ' . get_field("bambino", $post_id)->cognome;
+      case "bambino":
+      echo edit_post_link(get_field("bambino", $post_id)->nome . ' ' . get_field("bambino", $post_id)->cognome, '<strong>', '</strong>');
       break;
     case "mangiato":
       echo get_field("menu", $post_id)['primo']['mangiato'] ? '✅' : '';
@@ -671,3 +671,14 @@ is_admin() && add_action("pre_get_posts", function ($query) {
     $query->set("orderby", "ID");
   }
 });    
+
+add_filter("post_row_actions", function ($actions) {
+  if (get_post_type() === POST_TYPE_ACTIVITY) {
+    unset($actions["edit"]);
+    unset($actions["view"]);
+    unset($actions["trash"]);
+    unset($actions["inline hide-if-no-js"]);
+  }
+
+  return $actions;
+}, 10, 1);
