@@ -633,7 +633,8 @@ function hide_field( $field ) {
 }
 
 function show_title( $field ) {
-  echo '<h1 class="acf-field">' . get_the_title() . '</h1>';
+  // echo '<h1 class="acf-field">' . get_the_title() . '</h1>';
+  echo '<h1 class="acf-field">' . get_field('field_5ca4c96dc706b') . ' - ' . get_field('field_5ca4c98dc706c')->post_title . '</h1>';
 }
 
 add_filter( 'acf/prepare_field/key=field_5ca4c96dc706b', 'show_title' );
