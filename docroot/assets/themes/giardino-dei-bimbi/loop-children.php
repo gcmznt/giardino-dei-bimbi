@@ -55,7 +55,7 @@
 					?></li>
 				<?php } ?>
 			</ul>
-			<?php if (get_field('nanna', get_the_ID())) { ?>
+			<?php if (get_field('nanna', get_the_ID())['dalle']) { ?>
 				<svg class="icon">
 					<use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#sleep"></use>
 				</svg>
@@ -74,7 +74,7 @@
 					?>
 				</ul>
 			<?php } ?>
-			<?php if (get_field('scarica_1', get_the_ID())) { ?>
+			<?php if (get_field('scarica_1', get_the_ID())['ora']) { ?>
 				<svg class="icon">
 					<use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg#poo"></use>
 				</svg>
