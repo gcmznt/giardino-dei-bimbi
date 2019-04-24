@@ -517,10 +517,10 @@ add_action("create_activity_hook", function () {
       while ($query->have_posts()) {
         $query->the_post();
 
-        $start = strtotime(get_field("data_di_inizio"));
+        $start = strtotime(str_replace('/', '-', get_field("data_di_inizio")));
         $difference = $now - $start;
         $days = floor($difference / (60 * 60 * 24));
-  
+
         $menu = get_field("settimana_" . (floor($days / 7) % 4 + 1))[$day_map[date("w", $now)]];
       }
       wp_reset_postdata();
