@@ -374,6 +374,7 @@ acf_add_local_field_group(array(
 							'choices' => array(
 								'No' => 'No',
 								'Poco' => 'Poco',
+								'Metà' => 'Metà',
 								'Molto' => 'Molto',
 								'Tutto' => 'Tutto',
 							),
@@ -434,6 +435,7 @@ acf_add_local_field_group(array(
 							'choices' => array(
 								'No' => 'No',
 								'Poco' => 'Poco',
+								'Metà' => 'Metà',
 								'Molto' => 'Molto',
 								'Tutto' => 'Tutto',
 							),
@@ -494,6 +496,7 @@ acf_add_local_field_group(array(
 							'choices' => array(
 								'No' => 'No',
 								'Poco' => 'Poco',
+								'Metà' => 'Metà',
 								'Molto' => 'Molto',
 								'Tutto' => 'Tutto',
 							),
@@ -554,6 +557,7 @@ acf_add_local_field_group(array(
 							'choices' => array(
 								'No' => 'No',
 								'Poco' => 'Poco',
+								'Metà' => 'Metà',
 								'Molto' => 'Molto',
 								'Tutto' => 'Tutto',
 							),

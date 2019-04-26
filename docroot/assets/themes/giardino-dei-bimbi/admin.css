@@ -1,0 +1,20 @@
+@media screen and (max-width:782px) {
+  .tablenav.top .actions {
+    display: flex;
+    float: none;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .tablenav.top .bulkactions {
+    display: none;
+  }
+
+  #filter-by-date {
+    display: none;
+  }
+}
+
+.post-type-activity table.fixed {
+  table-layout: auto;
+}

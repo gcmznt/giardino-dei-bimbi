@@ -429,8 +429,7 @@ add_action("manage_" . POST_TYPE_TEACHER . "_posts_custom_column", function ($co
 add_filter("manage_" . POST_TYPE_ACTIVITY . "_posts_columns", function ($columns) {
   return array(
     "cb" => $columns["cb"],
-    "data" => __("Data"),
-    "bambino" => __("Bambino"),
+    "scheda" => __("Scheda"),
     "mangiato" => __("Ha mangiato?"),
     "dormito" => __("Ha dormito?"),
     "merenda" => __("Ha fatto merenda?"),
@@ -444,19 +443,16 @@ add_filter("manage_" . POST_TYPE_ACTIVITY . "_posts_columns", function ($columns
 
 add_action("manage_" . POST_TYPE_ACTIVITY . "_posts_custom_column", function ($column, $post_id) {
   switch ($column) {
-    case "data":
-      echo edit_post_link(get_field("data", $post_id), '<strong>', '</strong>');
-      break;
-      case "bambino":
-      echo edit_post_link(get_field("bambino", $post_id)->nome . ' ' . get_field("bambino", $post_id)->cognome, '<strong>', '</strong>');
+    case "scheda":
+      echo edit_post_link(get_field("data", $post_id) . ' - ' . get_field("bambino", $post_id)->nome . ' ' . get_field("bambino", $post_id)->cognome, '<strong>', '</strong>');
       break;
     case "mangiato":
       echo get_field("menu", $post_id)['primo']['mangiato'] ? '✅' : '';
       break;
     case "dormito":
-      echo get_field("nanna", $post_id)['alle'] ? '😴' : '';
-      echo get_field("secondo_pisolino", $post_id)['alle'] ? '😴' : '';
-      echo get_field("terzo_pisolino", $post_id)['alle'] ? '😴' : '';
+      echo get_field("nanna", $post_id)['alle'] ? '✅' : (get_field("nanna", $post_id)['dalle'] ? '😴' : '');
+      echo get_field("secondo_pisolino", $post_id)['alle'] ? '✅' : (get_field("secondo_pisolino", $post_id)['dalle'] ? '😴' : '');
+      echo get_field("terzo_pisolino", $post_id)['alle'] ? '✅' : (get_field("terzo_pisolino", $post_id)['dalle'] ? '😴' : '');
       break;
     case "scaricato":
       echo get_field("scarica_1", $post_id)['ora'] ? '💩' : '';
@@ -682,3 +678,7 @@ add_filter("post_row_actions", function ($actions) {
 
   return $actions;
 }, 10, 1);
+
+add_action("admin_enqueue_scripts", function () {
+  wp_enqueue_style("admin-styles", get_template_directory_uri() . "/admin.css");
+});
