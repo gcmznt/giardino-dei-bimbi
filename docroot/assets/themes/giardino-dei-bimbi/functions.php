@@ -477,50 +477,55 @@ add_action("manage_" . POST_TYPE_ACTIVITY . "_posts_custom_column", function ($c
   }
 }, 10, 2);
 
+function get_today_menu() {
+  $now = time();
+  $today = date("Ymd");
+
+  $query = new WP_Query(array(
+    "post_type" => POST_TYPE_MENU,
+    "posts_per_page" => 1,
+    "post_status" => "publish",
+    "meta_query" => array(
+      array(
+        "key" => "data_di_inizio",
+        "value" => $today,
+        "type" => "DATE",
+        "compare" => "<="
+      )
+    ),
+    "meta_key" => "data_di_inizio",
+    "order_by" => "meta_value_num",
+    "order" => "ASC",
+  ));
+
+  $day_map = array(
+    0 => "domenica",
+    1 => "lunedi",
+    2 => "martedi",
+    3 => "mercoledi",
+    4 => "giovedi",
+    5 => "venerdi",
+    6 => "sabato"
+  );
+
+  if ($query->have_posts()) {
+    while ($query->have_posts()) {
+      $query->the_post();
+
+      $start = strtotime(str_replace('/', '-', get_field("data_di_inizio")));
+      $difference = $now - $start;
+      $days = floor($difference / (60 * 60 * 24));
+
+      wp_reset_postdata();
+      return get_field("settimana_" . (floor($days / 7) % 4 + 1))[$day_map[date("w", $now)]];
+    }
+  }
+}
+
 add_action("create_activity_hook", function () {
   $now = time();
   if (0 < date("w", $now) && date("w", $now) < 6) {
-    $today = date("Ymd");
-
-    $query = new WP_Query(array(
-      "post_type" => POST_TYPE_MENU,
-      "posts_per_page" => 1,
-      "post_status" => "publish",
-      "meta_query" => array(
-        array(
-          "key" => "data_di_inizio",
-          "value" => $today,
-          "type" => "DATE",
-          "compare" => "<="
-        )
-      ),
-      "meta_key" => "data_di_inizio",
-      "order_by" => "meta_value_num",
-      "order" => "ASC",
-    ));
-
-    $day_map = array(
-      0 => "domenica",
-      1 => "lunedi",
-      2 => "martedi",
-      3 => "mercoledi",
-      4 => "giovedi",
-      5 => "venerdi",
-      6 => "sabato"
-    );
-
-    if ($query->have_posts()) {
-      while ($query->have_posts()) {
-        $query->the_post();
-
-        $start = strtotime(str_replace('/', '-', get_field("data_di_inizio")));
-        $difference = $now - $start;
-        $days = floor($difference / (60 * 60 * 24));
-
-        $menu = get_field("settimana_" . (floor($days / 7) % 4 + 1))[$day_map[date("w", $now)]];
-      }
-      wp_reset_postdata();
-    }
+    $menu = get_today_menu();
 
     $query = new WP_Query(array(
       "post_type" => POST_TYPE_CHILDREN,
@@ -682,3 +687,71 @@ add_filter("post_row_actions", function ($actions) {
 add_action("admin_enqueue_scripts", function () {
   wp_enqueue_style("admin-styles", get_template_directory_uri() . "/admin.css");
 });
+
+
+add_action('admin_menu', 'awesome_page_create');
+function awesome_page_create() {
+  $page_title = 'Modifica menu';
+  $menu_title = 'Modifica menu';
+  $capability = 'edit_posts';
+  $menu_slug = 'edit_menu';
+  $function = 'my_awesome_page_display';
+  $icon_url = '';
+  $position = 24;
+
+  add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position);
+}
+
+function my_awesome_page_display() {
+  if (!current_user_can('manage_options')) {
+    wp_die('Unauthorized user');
+  }
+
+  // check_admin_referrer( 'wpshout_option_page_example_action' );
+
+  if (isset($_POST['primo'])) {
+    $today = date("Ymd");
+    $query = new WP_Query(array(
+      "post_type" => "activity",
+      "posts_per_page" => -1,
+      "meta_query" => array(
+        array(
+          "key" => "data",
+          "value" => $today,
+          "type" => "DATE",
+          "compare" => "="
+        )
+      ),
+      "meta_key" => "data"
+    ));
+
+    if ($query->have_posts()) {
+      while ($query->have_posts()) {
+        $query->the_post();
+
+        update_field("menu", array(
+          "primo" => array(
+            "piatto" => $_POST['primo']
+          ),
+          "secondo" => array(
+            "piatto" => $_POST['secondo']
+          ),
+          "contorno" => array(
+            "piatto" => $_POST['contorno']
+          ),
+          "frutta" => array(
+            "piatto" => $_POST['frutta']
+          ),
+        ), get_the_ID());
+      }
+      wp_reset_postdata();
+    }
+
+  } 
+
+  $menu = get_today_menu();
+
+  $value = get_option('awesome_text', 'hey-ho');
+
+  include 'edit-menu.php';
+}
