@@ -2,20 +2,20 @@
 
 <form method="POST">
   <div>
-    <label for="primo">Primo</label>
-    <input type="text" name="primo" id="primo" value="<?php echo $menu['primo']; ?>">
+    <label for="primo">Primo [<?php echo $menu['primo']; ?>]</label>
+    <input type="text" name="primo" id="primo" value="">
   </div>
   <div>
-    <label for="secondo">Secondo</label>
-    <input type="text" name="secondo" id="secondo" value="<?php echo $menu['secondo']; ?>">
+    <label for="secondo">Secondo [<?php echo $menu['secondo']; ?>]</label>
+    <input type="text" name="secondo" id="secondo" value="">
   </div>
   <div>
-    <label for="contorno">Contorno</label>
-    <input type="text" name="contorno" id="contorno" value="<?php echo $menu['contorno']; ?>">
+    <label for="contorno">Contorno [<?php echo $menu['contorno']; ?>]</label>
+    <input type="text" name="contorno" id="contorno" value="">
   </div>
   <div>
-    <label for="frutta">Frutta</label>
-    <input type="text" name="frutta" id="frutta" value="<?php echo $menu['frutta']; ?>">
+    <label for="frutta">Frutta [<?php echo $menu['frutta']; ?>]</label>
+    <input type="text" name="frutta" id="frutta" value="">
   </div>
   <br>
   <?php wp_nonce_field( 'wpshout_option_page_example_action' ); ?>

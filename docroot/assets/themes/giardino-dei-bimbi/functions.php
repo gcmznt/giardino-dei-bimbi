@@ -273,9 +273,9 @@ add_action("pre_get_posts", function ($query) {
   if (is_admin() || defined('DOING_CRON')) { return $query; }
 
   if (isset($query->query_vars["post_type"]) && $query->query_vars["post_type"] === POST_TYPE_CHILDREN) {
-    if (current_user_can("administrator")) {
-      $query->set("posts_per_page", 20);
-    } else {
+    // if (current_user_can("administrator")) {
+    //   $query->set("posts_per_page", 20);
+    // } else {
       $query->set("meta_query", array(
         array(
           "key"     => "genitore",
@@ -283,7 +283,7 @@ add_action("pre_get_posts", function ($query) {
           "compare" => "LIKE"
         ),
       ));
-    }
+    // }
   }
 
   return $query;
@@ -746,7 +746,10 @@ function my_awesome_page_display() {
       }
       wp_reset_postdata();
     }
-
+    
+    echo '<div class="updated notice">
+    <p>Menu aggiornato</p>
+</div>';
   } 
 
   $menu = get_today_menu();

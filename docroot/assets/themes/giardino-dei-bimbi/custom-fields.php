@@ -101,6 +101,8 @@ acf_add_local_field_group(array(
 			),
 			'role' => array(
 				0 => 'parent',
+				1 => 'teacher',
+				2 => 'administrator',
 			),
 			'allow_null' => 0,
 			'multiple' => 1,
