@@ -15,6 +15,11 @@ section {
 section.intro {
   color: #007042;
 }
+.intro h1 {
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 9px white;
+}
 section.nido {
   background-color: #007042;
   color: white;
@@ -83,6 +88,16 @@ p, ul, h1, h2, h3, h4, h5, h6 {
     margin-bottom: 2em;
   }
 }
+body:not(.home) .tree {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0.7);
+  margin: 0;
+  z-index: 0;
+  transform-origin: bottom;
+  opacity: 0.2;
+}
 .button {
   background-color: transparent;
   border: 0;
@@ -108,6 +123,9 @@ p, ul, h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   font-size: 16px;
   margin: 10px 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 5px white;
 }
 .menu ul {
   padding-left: 0;
