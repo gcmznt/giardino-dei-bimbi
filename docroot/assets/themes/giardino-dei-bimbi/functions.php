@@ -494,8 +494,8 @@ function get_today_menu() {
       )
     ),
     "meta_key" => "data_di_inizio",
-    "order_by" => "meta_value_num",
-    "order" => "ASC",
+    "orderby" => "meta_value",
+    "order" => "DESC",
   ));
 
   $day_map = array(
