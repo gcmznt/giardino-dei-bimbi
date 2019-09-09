@@ -30,7 +30,7 @@ section.services {
   color: white;
 }
 section.reserved {
-  background-color: #ed6a56;
+  background-color: #bf096c;
   color: white;
 }
 section a {
@@ -74,9 +74,13 @@ h1 {
   margin: 0 auto;
   max-width: 1024px;
 }
-p, ul, h1, h2, h3, h4, h5, h6 {
+p, ul, h1, h2, h3, h4, h5, h6, figure, .wp-block-image {
   margin: 1em auto;
   max-width: 1024px;
+}
+article.news {
+  max-width: 1024px;
+  margin: auto;
 }
 .tree {
   margin-top: 50px;
@@ -116,7 +120,7 @@ body:not(.home) .tree {
   color: white;
 }
 .reserved .button {
-  background-color: #780028;
+  background-color: #41265a;
 }
 .menu {
   display: flex;
@@ -337,4 +341,6 @@ body:not(.home) .tree {
 }
 .icon {
   fill: currentColor;
+}
+.privacy {
 }

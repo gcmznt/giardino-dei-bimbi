@@ -114,7 +114,15 @@
 <section class="reserved">
   <h1>Area riservata</h1>
   <!-- <p>Lorem ipsum</p> -->
-  <a href="/cms/wp-login.php" class="button">Accedi</a>
+  <?php
+    $user = wp_get_current_user();
+    $allowed_roles = array('administrator', ROLE_OWNER, ROLE_TEACHER);
+    $link = '/cms/wp-login.php';
+    if (is_user_logged_in()) {
+      $link = (array_intersect($allowed_roles, $user->roles)) ? '/cms/wp-admin/' : '/children/';
+    }
+  ?>
+  <a href="<?php echo $link ?>" class="button">Accedi</a>
 </section>
 
 <?php get_footer(); ?>

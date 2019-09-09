@@ -9,6 +9,11 @@
 	<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
 
 	<?php wp_head(); ?>
+
+  <script type="text/javascript">
+var _iub = _iub || [];
+_iub.csConfiguration = {"lang":"it","siteId":1669044,"cookiePolicyId":83382203, "banner":{ "position":"bottom","textColor":"black","backgroundColor":"white","acceptButtonDisplay":true,"acceptButtonColor":"#0073CE","acceptButtonCaptionColor":"white","customizeButtonDisplay":true,"customizeButtonColor":"#DADADA","customizeButtonCaptionColor":"#4D4D4D" }};
+</script><script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
 </head>
 <body <?php body_class(); ?>>
   <main>
