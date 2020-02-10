@@ -100,7 +100,7 @@
         <br />
         tel. 031.3520241
         <br />
-        mail. asiloilgiardinodeibimbi@gmail.com
+        mail. giardinodeibimbi@yahoo.com
       </p>
     </div>
     <iframe
