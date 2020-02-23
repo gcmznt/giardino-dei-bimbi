@@ -344,3 +344,11 @@ body:not(.home) .tree {
 }
 .privacy {
 }
+
+.notice {
+  border: 16px solid red;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+}

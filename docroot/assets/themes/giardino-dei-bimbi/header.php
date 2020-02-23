@@ -3,7 +3,7 @@
 <head>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
-	<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory'); ?>/giardino-dei-bimbi.css" />
+	<link rel="stylesheet" href="<?php echo get_bloginfo('template_directory'); ?>/giardino-dei-bimbi.css?1" />
 	<link href="https://fonts.googleapis.com/css?family=Montserrat|Pacifico" rel="stylesheet" />
 	
 	<title><?php wp_title(''); ?><?php if(wp_title('', false)) { echo ' :'; } ?> <?php bloginfo('name'); ?></title>
@@ -16,6 +16,11 @@ _iub.csConfiguration = {"lang":"it","siteId":1669044,"cookiePolicyId":83382203, 
 </script><script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
 </head>
 <body <?php body_class(); ?>>
+  <?php if (new DateTime() < new DateTime("2020-03-01 00:00:00")) { ?>
+  <div class="notice">
+    Avviso importante: Per ordinanza regionale l'asilo rimarrà chiuso da lunedí 24 a venerdí 29 febbraio, salvo nuove disposizioni.
+  </div>
+  <?php } ?>
   <main>
     <section class="intro">
       <h1>Il Giardino dei Bimbi</h1>
