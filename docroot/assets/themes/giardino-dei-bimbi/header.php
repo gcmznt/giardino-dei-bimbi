@@ -16,8 +16,8 @@ _iub.csConfiguration = {"lang":"it","siteId":1669044,"cookiePolicyId":83382203, 
 </script><script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
 </head>
 <body <?php body_class(); ?>>
-  <div class="notice">
-    Avviso importante: Per disposizione di legge l'asilo dovrà rimanere chiuso fino a nuove disposizioni.
+  <div class="good-notice">
+    Da lunedi 22 giugno, l'asilo riapre come come centro estivo per bambini da zero a cinque anni. Vi aspettiamo!
   </div>
   <main>
     <section class="intro">
