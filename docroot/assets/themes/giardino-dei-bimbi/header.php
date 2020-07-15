@@ -17,7 +17,7 @@ _iub.csConfiguration = {"lang":"it","siteId":1669044,"cookiePolicyId":83382203, 
 </head>
 <body <?php body_class(); ?>>
   <div class="good-notice">
-    Da lunedi 22 giugno, l'asilo riapre come come centro estivo per bambini da zero a cinque anni. Vi aspettiamo!
+    Da lunedi 22 giugno, l'asilo riapre come centro estivo per bambini da zero a cinque anni. Vi aspettiamo!
   </div>
   <main>
     <section class="intro">
