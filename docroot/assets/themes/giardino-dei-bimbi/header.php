@@ -16,9 +16,9 @@ _iub.csConfiguration = {"lang":"it","siteId":1669044,"cookiePolicyId":83382203, 
 </script><script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
 </head>
 <body <?php body_class(); ?>>
-  <div class="good-notice">
+  <!-- <div class="good-notice">
     Da lunedi 22 giugno, l'asilo riapre come centro estivo per bambini da zero a cinque anni. Vi aspettiamo!
-  </div>
+  </div> -->
   <main>
     <section class="intro">
       <h1>Il Giardino dei Bimbi</h1>
