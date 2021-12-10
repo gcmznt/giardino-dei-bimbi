@@ -144,9 +144,14 @@
 					?></li>
 				</ul>
 			<?php } ?>
-			<div class="note">
-				<?php the_field('note', get_the_ID()); ?>
-			</div>
+			<?php if (get_field('note', get_the_ID())) { ?>
+				<svg class="icon">
+					<use xlink:href="<?php echo get_bloginfo('template_directory'); ?>/images/icons.svg?2#note"></use>
+				</svg>
+				<ul class="description">
+					<li><?php the_field('note', get_the_ID()); ?></li>
+				</ul>
+			<?php } ?>
 		</div>
 	</div>
 <?php
